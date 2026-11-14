@@ -1,4 +1,4 @@
-# Telecom Big Data — démarrage
+# Network Intrusion Detection on Big Data (CIC-IDS-2017): Project Status
 
 ## 1. Préparer le dossier
 Copie ce dossier sur Windows (ex. C:\telecom-bigdata). Crée aussi deux sous-dossiers vides : `flume` et `logs`.
