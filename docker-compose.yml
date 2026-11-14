@@ -1,0 +1,81 @@
+services:
+  mysql:
+    image: mysql:8.0
+    mem_limit: 512m
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: telecom
+    command: --performance_schema=off --innodb-buffer-pool-size=64M
+    ports: ["3306:3306"]
+    volumes: ["mysql_data:/var/lib/mysql"]
+
+  namenode:
+    image: apache/hadoop:3.3.6
+    command: ["hdfs", "namenode"]
+    hostname: namenode
+    mem_limit: 700m
+    ports: ["9870:9870"]
+    env_file: ./config
+    environment:
+      ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+      HADOOP_HEAPSIZE_MAX: 512m
+
+  datanode:
+    image: apache/hadoop:3.3.6
+    command: ["hdfs", "datanode"]
+    mem_limit: 600m
+    env_file: ./config
+    environment:
+      HADOOP_HEAPSIZE_MAX: 384m
+    depends_on: [namenode]
+
+  kafka:
+    image: apache/kafka:3.7.0
+    mem_limit: 768m
+    ports: ["9094:9094"]
+    environment:
+      KAFKA_HEAP_OPTS: "-Xms256m -Xmx512m"
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    mem_limit: 800m
+    env_file: ./config
+    command: ["sleep", "infinity"]
+    depends_on: [namenode, mysql]
+    volumes:
+      - ./flume:/flume
+      - ./logs:/logs
+  hive:
+    image: apache/hive:4.0.0
+    mem_limit: 1536m
+    environment:
+      SERVICE_NAME: hiveserver2
+      HADOOP_USER_NAME: hadoop
+    ports: ["10000:10000", "10002:10002"]
+    volumes: ["./hive/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml"]
+    depends_on: [namenode]
+
+  spark:
+    image: apache/spark:3.5.3-python3
+    mem_limit: 3g
+    environment:
+      HADOOP_USER_NAME: hadoop
+    command: ["sleep", "infinity"]
+    volumes: ["./spark:/app"]
+    depends_on: [namenode, kafka]
+
+volumes:
+  mysql_data:
+
+

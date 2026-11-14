@@ -1,0 +1,31 @@
+FROM apache/hadoop:3.3.6
+USER root
+
+RUN curl -fSL --retry 5 --retry-delay 5 -o /tmp/sqoop.tgz \
+    https://archive.apache.org/dist/sqoop/1.4.7/sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz \
+ && tar xzf /tmp/sqoop.tgz -C /opt \
+ && mv /opt/sqoop-1.4.7.bin__hadoop-2.6.0 /opt/sqoop \
+ && rm /tmp/sqoop.tgz
+
+RUN curl -fSL --retry 5 --retry-delay 5 -o /tmp/flume.tgz \
+    https://archive.apache.org/dist/flume/1.11.0/apache-flume-1.11.0-bin.tar.gz \
+ && tar xzf /tmp/flume.tgz -C /opt \
+ && mv /opt/apache-flume-1.11.0-bin /opt/flume \
+ && rm /tmp/flume.tgz
+
+RUN curl -fSL --retry 5 --retry-delay 5 -o /opt/sqoop/lib/mysql-connector-j-8.0.33.jar \
+    https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar
+
+RUN curl -fSL --retry 5 --retry-delay 5 -o /opt/sqoop/lib/commons-lang-2.6.jar \
+    https://repo1.maven.org/maven2/commons-lang/commons-lang/2.6/commons-lang-2.6.jar
+
+RUN curl -fSL --retry 5 --retry-delay 5 -o /tmp/jdk.tgz \
+    "https://api.adoptium.net/v3/binary/latest/8/ga/linux/x64/jdk/hotspot/normal/eclipse" \
+ && mkdir /opt/jdk \
+ && tar xzf /tmp/jdk.tgz -C /opt/jdk --strip-components=1 \
+ && rm /tmp/jdk.tgz
+
+ENV JAVA_HOME=/opt/jdk
+ENV SQOOP_HOME=/opt/sqoop FLUME_HOME=/opt/flume HADOOP_COMMON_HOME=/opt/hadoop HADOOP_HDFS_HOME=/opt/hadoop HADOOP_MAPRED_HOME=/opt/hadoop
+ENV PATH=/opt/jdk/bin:$PATH:/opt/sqoop/bin:/opt/flume/bin
+USER hadoop
