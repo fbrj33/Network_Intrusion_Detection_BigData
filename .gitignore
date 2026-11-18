@@ -3,3 +3,7 @@ logs/
 *.csv
 __pycache__/
 .env
+*.log
+/hive/query_results.txt
+/hive/results.txt
+/spark/train_output.txt
