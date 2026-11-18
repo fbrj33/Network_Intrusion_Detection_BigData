@@ -2,10 +2,10 @@
 # Usage : bash sim_logs.sh LIGNES_PAR_SECONDE [MAX_LIGNES]
 RATE=${1:-500}
 MAX=${2:-0}
-SRC=/tmp/part_logs.csv
-OUT=/tmp/flowlogs/flows.log
-OFFSET_FILE=/tmp/sim_offset
-mkdir -p /tmp/flowlogs
+SRC=/data/part_logs.csv
+OUT=/logs/flowlogs/flows.log
+OFFSET_FILE=/logs/sim_offset
+mkdir -p /logs/flowlogs
 START=$(cat "$OFFSET_FILE" 2>/dev/null || echo 0)
 exec 3< <(tail -n +$((START + 2)) "$SRC")
 n=0

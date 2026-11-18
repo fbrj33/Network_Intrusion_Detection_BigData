@@ -25,7 +25,10 @@ RUN curl -fSL --retry 5 --retry-delay 5 -o /tmp/jdk.tgz \
  && tar xzf /tmp/jdk.tgz -C /opt/jdk --strip-components=1 \
  && rm /tmp/jdk.tgz
 
+RUN mkdir -p /opt/hadoop/libjars \
+ && chown -R hadoop:users /opt/hadoop/libjars
+
 ENV JAVA_HOME=/opt/jdk
-ENV SQOOP_HOME=/opt/sqoop FLUME_HOME=/opt/flume HADOOP_COMMON_HOME=/opt/hadoop HADOOP_HDFS_HOME=/opt/hadoop HADOOP_MAPRED_HOME=/opt/hadoop
-ENV PATH=/opt/jdk/bin:$PATH:/opt/sqoop/bin:/opt/flume/bin
+ENV HADOOP_HOME=/opt/hadoop SQOOP_HOME=/opt/sqoop FLUME_HOME=/opt/flume HADOOP_COMMON_HOME=/opt/hadoop HADOOP_HDFS_HOME=/opt/hadoop HADOOP_MAPRED_HOME=/opt/hadoop
+ENV PATH=/opt/jdk/bin:/opt/sqoop/bin:/opt/flume/bin:/opt/hadoop/bin:$PATH
 USER hadoop

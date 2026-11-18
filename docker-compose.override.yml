@@ -1,0 +1,16 @@
+services:
+  spark:
+    mem_limit: 5g
+  hive:
+    mem_limit: 2560m
+  grafana:
+    image: grafana/grafana:10.4.2
+    mem_limit: 384m
+    ports: ["3000:3000"]
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/dashboards:ro
+    depends_on: [mysql]
+volumes:
+  grafana_data:

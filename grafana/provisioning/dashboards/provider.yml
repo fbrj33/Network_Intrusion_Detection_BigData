@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: Network intrusion detection
+    orgId: 1
+    folder: Network IDS
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    options:
+      path: /etc/grafana/dashboards

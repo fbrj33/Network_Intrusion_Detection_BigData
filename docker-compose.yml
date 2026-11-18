@@ -6,7 +6,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: telecom
     command: --performance_schema=off --innodb-buffer-pool-size=64M
-    ports: ["3306:3306"]
+    ports: ["3307:3306"]
     volumes: ["mysql_data:/var/lib/mysql"]
 
   namenode:
@@ -17,8 +17,10 @@ services:
     ports: ["9870:9870"]
     env_file: ./config
     environment:
-      ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+      ENSURE_NAMENODE_DIR: "/tmp/hadoop-hadoop/dfs/name"
       HADOOP_HEAPSIZE_MAX: 512m
+    volumes:
+      - namenode_data:/tmp/hadoop-hadoop/dfs/name
 
   datanode:
     image: apache/hadoop:3.3.6
@@ -28,12 +30,15 @@ services:
     environment:
       HADOOP_HEAPSIZE_MAX: 384m
     depends_on: [namenode]
+    volumes:
+      - datanode_data:/tmp/hadoop-hadoop/dfs/data
 
   kafka:
     image: apache/kafka:3.7.0
     mem_limit: 768m
     ports: ["9094:9094"]
     environment:
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
       KAFKA_HEAP_OPTS: "-Xms256m -Xmx512m"
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
@@ -44,6 +49,10 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+      - ./data/prepared:/data:ro
+      - ./kafka:/app:ro
 
   client:
     build:
@@ -56,19 +65,28 @@ services:
     volumes:
       - ./flume:/flume
       - ./logs:/logs
+      - ./data/prepared:/data
+      - ./kafka:/kafka:ro
   hive:
     image: apache/hive:4.0.0
-    mem_limit: 1536m
+    mem_limit: 2560m
     environment:
       SERVICE_NAME: hiveserver2
       HADOOP_USER_NAME: hadoop
     ports: ["10000:10000", "10002:10002"]
-    volumes: ["./hive/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml"]
+    volumes:
+      - ./hive/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./hive/hive-site.xml:/opt/hive/conf/hive-site.xml:ro
+      - ./hive:/hive:ro
+      - hive_metastore:/opt/hive/metastore_db
     depends_on: [namenode]
 
   spark:
-    image: apache/spark:3.5.3-python3
-    mem_limit: 3g
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
+    image: ids-spark:3.5.3
+    mem_limit: 5g
     environment:
       HADOOP_USER_NAME: hadoop
     command: ["sleep", "infinity"]
@@ -77,5 +95,17 @@ services:
 
 volumes:
   mysql_data:
+  namenode_data:
+    external: true
+    name: network_intrusion_detection_bigdata_namenode_data
+  datanode_data:
+    external: true
+    name: network_intrusion_detection_bigdata_datanode_data
+  kafka_data:
+    external: true
+    name: network_intrusion_detection_bigdata_kafka_data
+  hive_metastore:
+    external: true
+    name: network_intrusion_detection_bigdata_hive_metastore
 
 

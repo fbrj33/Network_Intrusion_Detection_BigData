@@ -1,0 +1,83 @@
+26/11/18 16:06:50 INFO SparkContext: Running Spark version 3.5.3
+26/11/18 16:06:50 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/11/18 16:06:50 INFO SparkContext: Java version 11.0.24
+26/11/18 16:06:50 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/11/18 16:06:50 INFO ResourceUtils: ==============================================================
+26/11/18 16:06:50 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/11/18 16:06:50 INFO ResourceUtils: ==============================================================
+26/11/18 16:06:50 INFO SparkContext: Submitted application: train
+26/11/18 16:06:50 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/11/18 16:06:50 INFO ResourceProfile: Limiting resource is cpu
+26/11/18 16:06:50 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/11/18 16:06:50 INFO SecurityManager: Changing view acls to: spark,hadoop
+26/11/18 16:06:50 INFO SecurityManager: Changing modify acls to: spark,hadoop
+26/11/18 16:06:50 INFO SecurityManager: Changing view acls groups to: 
+26/11/18 16:06:50 INFO SecurityManager: Changing modify acls groups to: 
+26/11/18 16:06:50 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: spark, hadoop; groups with view permissions: EMPTY; users with modify permissions: spark, hadoop; groups with modify permissions: EMPTY
+26/11/18 16:06:50 INFO Utils: Successfully started service 'sparkDriver' on port 42537.
+26/11/18 16:06:50 INFO SparkEnv: Registering MapOutputTracker
+26/11/18 16:06:50 INFO SparkEnv: Registering BlockManagerMaster
+26/11/18 16:06:50 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/11/18 16:06:50 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/11/18 16:06:50 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/11/18 16:06:50 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-70e0ad8a-e1be-4720-a40e-167bdae5feef
+26/11/18 16:06:50 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+26/11/18 16:06:50 INFO SparkEnv: Registering OutputCommitCoordinator
+26/11/18 16:06:51 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/11/18 16:06:51 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/11/18 16:06:51 INFO Executor: Starting executor ID driver on host 22bcd31b0f6d
+26/11/18 16:06:51 INFO Executor: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+26/11/18 16:06:51 INFO Executor: Java version 11.0.24
+26/11/18 16:06:51 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/11/18 16:06:51 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@78038d74 for default.
+26/11/18 16:06:51 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 36805.
+26/11/18 16:06:51 INFO NettyBlockTransferService: Server created on 22bcd31b0f6d:36805
+26/11/18 16:06:51 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/11/18 16:06:51 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 22bcd31b0f6d, 36805, None)
+26/11/18 16:06:51 INFO BlockManagerMasterEndpoint: Registering block manager 22bcd31b0f6d:36805 with 434.4 MiB RAM, BlockManagerId(driver, 22bcd31b0f6d, 36805, None)
+26/11/18 16:06:51 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 22bcd31b0f6d, 36805, None)
+26/11/18 16:06:51 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 22bcd31b0f6d, 36805, None)
+26/11/18 16:06:55 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+ROWS_TOTAL 1800852
+ROWS_SAMPLED 523443
+TRAIN_ROWS 418573
+26/11/18 16:08:47 WARN DAGScheduler: Broadcasting large task binary with size 1278.6 KiB
+26/11/18 16:08:52 WARN DAGScheduler: Broadcasting large task binary with size 1741.7 KiB
+26/11/18 16:08:54 WARN DAGScheduler: Broadcasting large task binary with size 2.3 MiB
+26/11/18 16:08:57 WARN DAGScheduler: Broadcasting large task binary with size 1794.4 KiB
+26/11/18 16:09:03 WARN DAGScheduler: Broadcasting large task binary with size 1803.8 KiB
+METRIC accuracy 0.9939
+26/11/18 16:09:03 WARN DAGScheduler: Broadcasting large task binary with size 1803.8 KiB
+METRIC weightedPrecision 0.9939
+26/11/18 16:09:03 WARN DAGScheduler: Broadcasting large task binary with size 1803.8 KiB
+METRIC weightedRecall 0.9939
+26/11/18 16:09:04 WARN DAGScheduler: Broadcasting large task binary with size 1803.8 KiB
+METRIC f1 0.9938
+26/11/18 16:09:04 WARN DAGScheduler: Broadcasting large task binary with size 1813.3 KiB
+26/11/18 16:09:04 WARN DAGScheduler: Broadcasting large task binary with size 1814.1 KiB
+CLASS BENIGN                           support=45115   precision=0.993 recall=0.996 f1=0.994
+CLASS DoS Hulk                         support=24182   precision=1.000 recall=0.992 f1=0.996
+CLASS DDoS                             support=18018   precision=1.000 recall=0.999 f1=1.000
+CLASS PortScan                         support=12737   precision=0.999 recall=0.998 f1=0.999
+CLASS DoS GoldenEye                    support=1445    precision=0.997 recall=0.981 f1=0.989
+CLASS FTP-Patator                      support=830     precision=1.000 recall=0.999 f1=0.999
+CLASS DoS slowloris                    support=740     precision=0.989 recall=0.991 f1=0.990
+CLASS DoS Slowhttptest                 support=723     precision=0.974 recall=0.978 f1=0.976
+CLASS SSH-Patator                      support=459     precision=1.000 recall=0.965 f1=0.982
+CLASS Bot                              support=298     precision=0.862 recall=0.946 f1=0.902
+CLASS Web Attack - Brute Force         support=224     precision=0.493 recall=0.888 f1=0.634
+CLASS Web Attack - XSS                 support=86      precision=0.000 recall=0.000 f1=0.000
+CLASS Infiltration                     support=7       precision=1.000 recall=0.714 f1=0.833
+CLASS Web Attack - Sql Injection       support=5       precision=0.000 recall=0.000 f1=0.000
+CLASS Heartbleed                       support=1       precision=1.000 recall=1.000 f1=1.000
+IMPORTANCE fwd_packet_length_max 0.0591
+IMPORTANCE total_length_of_fwd_packets 0.0427
+IMPORTANCE packet_length_std 0.0403
+IMPORTANCE fwd_iat_max 0.0379
+IMPORTANCE idle_max 0.0377
+IMPORTANCE subflow_fwd_bytes 0.035
+IMPORTANCE init_win_bytes_forward 0.0337
+IMPORTANCE max_packet_length 0.0315
+IMPORTANCE subflow_bwd_bytes 0.0303
+IMPORTANCE destination_port 0.0274
+MODEL SAVED
