@@ -182,16 +182,7 @@ The export script generates and adds the Sqoop record JAR to the MapReduce
 classpath before exporting. This avoids the `ClassNotFoundException` seen
 during the initial export attempts.
 
-## Remaining project work
 
-1. Produce the final report with architecture, volume/source mapping, metrics,
-   screenshots of Grafana and HDFS, and results.
-2. Obtain the team's data contract and reconcile it with the available CSV
-   schema. In particular, resolve the missing protocol field.
-3. Review and improve per-class performance for rare attack labels, especially
-   Web Attack XSS and SQL Injection.
-4. Verify the provisioned Grafana dashboard and capture the requested
-   screenshots.
 
 ## Stop services
 
